@@ -1,10 +1,11 @@
 {
-  "name": "inspect-svg-symbols",
+  "name": "Inspect SVG",
   "description": "Try to find and show SVG symbols used on a page.",
   "manifest_version": 2,
   "version": "1.0",
   "icons": {
-    "48": "img/icon.svg"
+    "64": "img/lion-64.png",
+    "128": "img/lion-128.png"
   },
   "background": {
     "scripts": ["background.js"]

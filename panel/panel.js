@@ -4,35 +4,93 @@
 const tabId = browser.devtools.inspectedWindow.tabId;
 const port = browser.runtime.connect();
 
+let panelIsEmpty = true;
+const mainContainer = document.querySelector(".Content");
+const asideContainer = document.querySelector(".Sidebar");
+const asideFrame = document.querySelector(".ImageFull-frame");
+const asideInfo = document.querySelector(".ImageFull-info");
+const toolbar = document.querySelector(".Toolbar");
+
+toolbar.addEventListener("click", event => {
+  const btnSel = ".Toolbar-styles button";
+  const btn = event.target.closest(btnSel);
+  if (btn === null) return;
+  // Switch button states
+  const currentBtn = toolbar.querySelector(btnSel + "[aria-selected=true]");
+  if (currentBtn && currentBtn !== btn) {
+    currentBtn.removeAttribute("aria-selected");
+    btn.setAttribute("aria-selected", "true");
+  }
+  // Apply styles
+  document.body.setAttribute("style", btn.getAttribute("style"));
+});
+
+/**
+ * Show a SVG element in the sidebar
+ * @param {Element} li
+ */
+function selectIcon(li) {
+  const current = mainContainer.querySelector(".ImageList-icon.selected");
+  if (current && current !== li) {
+    current.classList.remove("selected");
+  }
+  li.classList.add("selected");
+  asideFrame.innerHTML = li.innerHTML;
+  asideInfo.innerHTML = `<table>
+    <tr><td>Type</td><td>${li.dataset.type}</td></tr>
+    <tr><td>Size</td><td>${li.dataset.size}</td></tr>
+  </table>`;
+  asideContainer.hidden = false;
+}
+
 /**
  * Tell bg script to inject content script in current tab
  */
 port.postMessage({
   tabId: tabId,
   registerPort: true,
-  injectScript: "/content/findSymbols.js"
+  injectScript: "/devtools/content.js"
 });
 
 // Test: show found symbols
 port.onMessage.addListener(msg => {
-  if (!msg.result) {
+  if (!msg.result || msg.result.items.length === 0) {
     return;
   }
   const { type, location, items } = msg.result;
+  const label = type === "symbol" ? "&lt;symbol>" : "&lt;svg>";
   const itemsHtml = items.map(item => {
-    return type === "symbol"
-      ? `<svg>${item.content}<use xlink:href="#${item.id}"></use></svg><span>${item.name}</span>`
-      : `${item.content}<span>${item.name}</span>`;
+    const { name, content, id, size } = item;
+    return `<li class="ImageList-icon svgWrapper"
+      data-type="${name}" data-size="${size}">
+      ${type === "symbol"
+      ? `<svg>${content}<use xlink:href="#${id}"></use></svg>`
+      : `${content}`}</li>`;
   });
-  document.body.insertAdjacentHTML(
-    "beforeend",
-    `<section>
-      <h2 class="Header">${type.toUpperCase()} - ${location}</h2>
-      <ul class="ImageList">
-        ${items.length
-          ? itemsHtml.map(h => `<li>${h}</li>`).join("")
-          : `<li><i>No content found.</i></li>`}
-      </ul>
-    </section>`
-  );
+  const html = `<section>
+    <h2 class="Header">
+      <span class="Header-type">${label}</span>
+      <span class="Header-url">${location}</span>        
+    </h2>
+    <ul class="ImageList">
+      ${items.length ? itemsHtml.join("") : `<li><i>No content found.</i></li>`}
+    </ul>
+  </section>`;
+
+  if (panelIsEmpty) {
+    // Remove placeholder
+    //mainContainer.innerHTML = html;
+    mainContainer.innerHTML = html;
+    // Select first icon
+    const first = mainContainer.querySelector(".ImageList-icon");
+    if (first) selectIcon(first);
+    // Listen for selections
+    mainContainer.addEventListener("click", event => {
+      const icon = event.target.closest(".ImageList-icon");
+      if (icon) selectIcon(icon);
+    });
+    panelIsEmpty = false;
+  } else {
+    mainContainer.insertAdjacentHTML("beforeend", html);
+  }
 });

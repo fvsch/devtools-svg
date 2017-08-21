@@ -1,13 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="panel.css">
-  <script src="panel.js"></script>
 </head>
-
-<body>
+<body style="--svg-fill:black;--svg-stroke:none;">
+<svg height="0" width="0" style="position:absolute;" aria-hidden="true">
+  <linearGradient id="dvtsvg-gradient-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#0575E6"/>
+    <stop offset="100%" stop-color="#021B79"/>
+  </linearGradient>
+  <linearGradient id="dvtsvg-gradient-yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#F2C94C"/>
+    <stop offset="100%" stop-color="#F2994A"/>
+  </linearGradient>
+</svg>
+<main>
+  <div class="Toolbar">
+    <div class="Toolbar-styles">
+      <span>Default fill</span>
+      <button aria-label="Black fill" title="Black fill" aria-selected="true"
+        style="--svg-fill:black;--svg-stroke:none;">
+        <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
+      </button>
+      <button aria-label="Blue fill" title="Blue fill"
+        style="--svg-fill:url('#dvtsvg-gradient-blue');--svg-stroke:none;">
+        <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
+      </button>
+      <button aria-label="Yellow fill" title="Yellow fill"
+        style="--svg-fill:url('#dvtsvg-gradient-yellow');--svg-stroke:none;">
+        <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
+      </button>
+      <button aria-label="Green stroke" title="Green stroke"
+        style="--svg-fill:none;--svg-stroke:#56b832;">
+        <svg width="16" height="16"><rect stroke-width="2" x="3" y="3" width="10" height="10"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="Content">
+    <div class="Content-placeholder">Looking for SVG content…</div>
+  </div>
+</main>
+<aside class="Sidebar" hidden>
+  <figure class="ImageFull">
+    <div class="ImageFull-frame svgWrapper"></div>
+    <figcaption class="ImageFull-info"></figcaption>
+  </figure>
+</aside>
+<script src="panel.js"></script>
 </body>
-
 </html>
