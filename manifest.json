@@ -1,0 +1,14 @@
+{
+  "name": "inspect-svg-symbols",
+  "description": "Try to find and show SVG symbols used on a page.",
+  "manifest_version": 2,
+  "version": "1.0",
+  "icons": {
+    "48": "img/icon.svg"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": ["<all_urls>"],
+  "devtools_page": "devtools/devtools.html"
+}

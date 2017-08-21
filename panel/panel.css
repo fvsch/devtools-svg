@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #fff;
+}
+
+.HiddenSprite {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: .01;
+}
+
+.Header {
+  margin: 0;
+  padding: .5em;
+  font-size: 16px;
+  font-weight: normal;
+  background-color: #eee;
+}
+
+.ImageList {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 10px;
+}
+
+.ImageList > li {
+  position: relative;
+  width: 100px;
+  margin: 5px;
+  list-style: none;
+}
+
+.ImageList > li > svg {
+  width: 100px;
+  height: 100px;
+  vertical-align: top;
+  outline: solid 1px limegreen;
+}
+
+.ImageList > li > span {
+  display: block;
+  margin-top: .5em;
+  font-family: monospace, monospace;
+  font-size: 12px;
+  color: #666;
+}
