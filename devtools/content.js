@@ -21,16 +21,17 @@ const getContentData = (known => element => {
  */
 const remoteDocs = [];
 
-/**
- *
- * @param el
- */
 function stylelessClone(el) {
   const clone = el.cloneNode(true);
   clone.removeAttribute('style');
-  clone.removeAttribute('width');
-  clone.removeAttribute('height');
+  clone.removeAttribute('class');
   Array.from(clone.querySelectorAll('style')).forEach(s => s.remove());
+  // Missing a viewBox? Let's add one if we can
+  if (!clone.getAttribute('viewBox')) {
+    let w = parseInt(clone.getAttribute('width'), 10);
+    let h = parseInt(clone.getAttribute('height'), 10);
+    if (w && h) clone.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  }
   return clone;
 }
 
