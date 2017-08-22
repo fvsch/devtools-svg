@@ -3,36 +3,41 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="panel.css">
+  <style id="search-styles"></style>
 </head>
 <body style="--svg-fill:black;--svg-stroke:none;">
 <svg height="0" width="0" style="position:absolute;" aria-hidden="true">
   <linearGradient id="dvtsvg-gradient-blue" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0%" stop-color="#0575E6"/>
-    <stop offset="100%" stop-color="#021B79"/>
+    <stop offset="0%" stop-color="#34A0FF"/>
+    <stop offset="33%" stop-color="#1080E6"/>
+    <stop offset="100%" stop-color="#0324A6"/>
   </linearGradient>
   <linearGradient id="dvtsvg-gradient-yellow" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0%" stop-color="#F2C94C"/>
+    <stop offset="0%" stop-color="#FC5923"/>
     <stop offset="100%" stop-color="#F2994A"/>
   </linearGradient>
   <linearGradient id="dvtsvg-gradient-red" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0%" stop-color="#ee0979"/>
-    <stop offset="100%" stop-color="#ff6a00"/>
+    <stop offset="0%" stop-color="#FC232C"/>
+    <stop offset="100%" stop-color="#D51B51"/>
   </linearGradient>
 </svg>
 <main>
   <div class="Toolbar">
+    <div class="Toolbar-search">
+      <input aria-label="Filter on id or class" placeholder="Filter on id or class">
+    </div>
     <div class="Toolbar-styles">
-      <span>Default fill</span>
+      <span>Default style</span>
       <button aria-label="Black fill" title="Black fill" aria-selected="true"
-        style="--svg-fill:black;--svg-stroke:none;">
+        style="--svg-fill:black;--svg-stroke:none;--svg-color:black;">
         <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
       </button>
       <button aria-label="Blue fill" title="Blue fill"
-        style="--svg-fill:url('#dvtsvg-gradient-blue');--svg-stroke:none;">
+        style="--svg-fill:url('#dvtsvg-gradient-blue');--svg-stroke:none;--svg-color:rgba(0,0,255,.75);">
         <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
       </button>
       <button aria-label="Red fill" title="Red fill"
-        style="--svg-fill:url('#dvtsvg-gradient-red');--svg-stroke:none;">
+        style="--svg-fill:url('#dvtsvg-gradient-red');--svg-stroke:none;--svg-color:rgba(255,0,0,.75);;">
         <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
       </button>
       <button aria-label="Green stroke" title="Green stroke"

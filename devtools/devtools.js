@@ -3,6 +3,6 @@
  */
 browser.devtools.panels.create(
   "SVG",
-  "img/vector-small-white.svg",
+  "img/vector-small-bw.svg",
   "panel/panel.html"
 );

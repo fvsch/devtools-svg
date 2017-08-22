@@ -13,10 +13,10 @@
   --full-image: 240px;
   --text-base: #333;
   --accent-text: #fff;
-  --accent-background: #3A8AD3;
-  --accent-dim-background: #D9DBDE;
+  --accent-background: #3a8ad3;
+  --accent-dim-background: #d9dbde;
   --background-base: #fff;
-  --background-darker1: #FBFBFB;
+  --background-darker1: #fbfbfb;
   --background-darker2: #f0f0f0;
   --background-list: #ccc;
   --border-color-main: #e6e6e6;
@@ -45,8 +45,9 @@ main {
 }
 
 .svgWrapper > svg {
-  fill: var(--svg-fill);
-  stroke: var(--svg-stroke);
+  fill: var(--svg-fill, currentColor);
+  stroke: var(--svg-stroke, none);
+  color: var(--svg-color, currentColor);
 }
 
 .Sidebar {
@@ -167,7 +168,7 @@ section:first-child .Header {
 }
 
 .ImageList-icon {
-  border: solid 1px rgba(0,0,0,.05);
+  border: solid 1px rgba(0, 0, 0, .05);
 }
 
 .ImageList-icon.selected {

@@ -10,6 +10,8 @@ const asideContainer = document.querySelector(".Sidebar");
 const asideFrame = document.querySelector(".ImageFull-frame");
 const asideInfo = document.querySelector(".ImageFull-info");
 const toolbar = document.querySelector(".Toolbar");
+const searchStyles = document.querySelector("#search-styles");
+const searchInput = document.querySelector(".Toolbar-search input");
 
 toolbar.addEventListener("click", event => {
   const btnSel = ".Toolbar-styles button";
@@ -25,6 +27,19 @@ toolbar.addEventListener("click", event => {
   document.body.setAttribute("style", btn.getAttribute("style"));
 });
 
+searchInput.addEventListener("input", event => {
+  const val = event.target.value.trim().toLowerCase();
+  if (val) {
+    searchStyles.textContent = `
+      .ImageList-icon:not([data-search*="${val}"]) {
+        display: none !important;
+      }
+    `;
+  } else {
+    searchStyles.textContent = "";
+  }
+});
+
 /**
  * Show a SVG element in the sidebar
  * @param {Element} li
@@ -36,9 +51,12 @@ function selectIcon(li) {
   }
   li.classList.add("selected");
   asideFrame.innerHTML = li.innerHTML;
+  const { name, size } = li.dataset;
   asideInfo.innerHTML = `<table>
-    <tr><td>Type</td><td>${li.dataset.type}</td></tr>
-    <tr><td>Size</td><td>${li.dataset.size}</td></tr>
+    <tr><td>Name</td><td>${name}</td></tr>
+    <tr><td>Size</td><td>${size > 1000
+      ? (size / 1000).toFixed(1) + "&nbsp;kB"
+      : size + "&nbsp;B"}</td></tr>
   </table>`;
   asideContainer.hidden = false;
 }
@@ -62,10 +80,10 @@ port.onMessage.addListener(msg => {
   const itemsHtml = items.map(item => {
     const { name, content, id, size } = item;
     return `<li class="ImageList-icon svgWrapper"
-      data-type="${name}" data-size="${size}">
+      data-name="${name}" data-size="${size}" data-search="${name.toLowerCase()}">
       ${type === "symbol"
-      ? `<svg>${content}<use xlink:href="#${id}"></use></svg>`
-      : `${content}`}</li>`;
+        ? `<svg>${content}<use xlink:href="#${id}"></use></svg>`
+        : `${content}`}</li>`;
   });
   const html = `<section>
     <h2 class="Header">
