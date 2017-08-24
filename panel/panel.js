@@ -11,7 +11,7 @@ const asideFrame = document.querySelector(".ImageFull-frame");
 const asideInfo = document.querySelector(".ImageFull-info");
 const toolbar = document.querySelector(".Toolbar");
 const searchStyles = document.querySelector("#search-styles");
-const searchInput = document.querySelector(".Toolbar-search input");
+const searchInput = document.querySelector(".Toolbar-search");
 
 toolbar.addEventListener("click", event => {
   const btnSel = ".Toolbar-styles button";
@@ -70,12 +70,32 @@ port.postMessage({
   injectScript: "/devtools/content.js"
 });
 
+/**
+ * Add methods to the window object that we can use on panel events
+ * from devtools.js
+ */
+window.panelCommands = {
+  getContent: () => {
+    port.postMessage({
+      tabId: tabId,
+      contentMsg: "update"
+    });
+  },
+  forceContentUpdate: () => {
+    port.postMessage({
+      tabId: tabId,
+      contentMsg: "update-force"
+    });
+  }
+};
+
 // Test: show found symbols
 port.onMessage.addListener(msg => {
   if (!msg.result || msg.result.items.length === 0) {
     return;
   }
   const { type, location, items } = msg.result;
+  const sectionId = type + "@" + location;
   const label = type === "symbol" ? "&lt;symbol>" : "&lt;svg>";
   const itemsHtml = items.map(item => {
     const { name, content, id, size } = item;
@@ -85,7 +105,10 @@ port.onMessage.addListener(msg => {
         ? `<svg>${content}<use xlink:href="#${id}"></use></svg>`
         : `${content}`}</li>`;
   });
-  const html = `<section>
+
+  const section = document.createElement("section");
+  section.id = sectionId;
+  section.innerHTML = `
     <h2 class="Header">
       <span class="Header-type">${label}</span>
       <span class="Header-url">${location}</span>        
@@ -93,12 +116,12 @@ port.onMessage.addListener(msg => {
     <ul class="ImageList">
       ${items.length ? itemsHtml.join("") : `<li><i>No content found.</i></li>`}
     </ul>
-  </section>`;
+  `;
 
   if (panelIsEmpty) {
     // Remove placeholder
-    //mainContainer.innerHTML = html;
-    mainContainer.innerHTML = html;
+    mainContainer.innerHTML = "";
+    mainContainer.appendChild(section);
     // Select first icon
     const first = mainContainer.querySelector(".ImageList-icon");
     if (first) selectIcon(first);
@@ -109,6 +132,8 @@ port.onMessage.addListener(msg => {
     });
     panelIsEmpty = false;
   } else {
-    mainContainer.insertAdjacentHTML("beforeend", html);
+    const old = document.getElementById(sectionId);
+    if (old) mainContainer.replaceChild(section, old);
+    else mainContainer.appendChild(section);
   }
 });

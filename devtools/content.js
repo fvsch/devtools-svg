@@ -1,5 +1,16 @@
-/** Simplify page URL a bit, dropping the query string and hash */
-const THIS_URL = document.location.origin + document.location.pathname;
+/**
+ * @file Content script injected by devtools-svg extension
+ * (We’re keeping some state information in a few variables, declared
+ * as `let` because in some cases it looks like this script is injected
+ * several times and this creates issues with `const`.)
+ */
+
+// Simplify page URL a bit, dropping the query string and hash
+let THIS_URL = document.location.origin + document.location.pathname;
+// Keep track of remote files we’re loading
+let _urls = [];
+// Keep track of validated results
+let _results = [];
 
 /**
  * Extract "clean" content from SVG elements, de-duping a set of element (for a document’s scope)
@@ -20,16 +31,6 @@ function contentDataExtractor() {
     return { size, clean, duplicate };
   };
 }
-
-/**
- * Keep track of remote files we’re loading
- */
-const _urls = [];
-
-/**
- * Keep track of validated results
- */
-const _results = [];
 
 /**
  * Remove extra whitespace and inter-tag spaces
@@ -107,21 +108,20 @@ function getVisibleSvg(root) {
 }
 
 /**
- *
- * @param type
- * @param location
- * @param cb
+ * Add results of looking for SVG in the page to the cache,
+ * and send them to the panel
+ * @param {object} config
  */
-function getResult(type, location, cb) {
+function sendResult({ type, location, action, forceUpdate }) {
   // Get a saved result or make a new one
   let result = _results
     .filter(r => r.type === type && r.location === location)
     .pop();
-  if (!result) {
-    result = { type: type, location: location, items: cb() };
+  if (!result || forceUpdate === true) {
+    result = { type: type, location: location, items: action() };
     _results.push(result);
   }
-  browser.runtime.sendMessage({ result });
+  browser.runtime.sendMessage({ result: result });
 }
 
 /**
@@ -129,34 +129,77 @@ function getResult(type, location, cb) {
  * We only pick up URLs of documents, not relative ones
  * Side effects: pushes to _urls
  * @param {Node} root
+ * @param {bool} forceUpdate
  * @returns {Array}
  */
-function getExternalUrls(root) {
+function getExternalUrls(root, forceUpdate) {
   return Array.from(root.querySelectorAll("svg use"))
     .map(el => {
       const href = el.href.baseVal.trim();
       if (!href || href.indexOf("#") <= 0) return null;
       const url = new URL(href.split("#")[0], THIS_URL).href;
-      if (_urls.includes(url)) {
+      const isKnown = _urls.includes(url);
+      if (isKnown && !forceUpdate) {
         return null;
       } else {
-        _urls.push(url);
+        if (!isKnown) _urls.push(url);
         return url;
       }
     })
-    .filter(url => url && !_urls.includes(url));
+    .filter(url => !!url);
 }
 
-// Start up
-getResult("symbol", THIS_URL, () => getSymbols(document));
-getResult("svg", THIS_URL, () => getVisibleSvg(document));
-
-getExternalUrls(document).forEach(url => {
-  fetch(url).then(resp => resp.text()).then(svgText => {
-    const parser = new DOMParser();
-    const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
-    if (svgDoc.documentElement.nodeName === "svg") {
-      getResult("symbol", url, () => getSymbols(svgDoc));
-    }
+/**
+ * Look for SVG in this document and remote ones
+ * This should be okay to call several times in a session, because
+ * we're caching
+ */
+function lookUp(forceUpdate) {
+  // Current document
+  sendResult({
+    type: "symbol",
+    location: THIS_URL,
+    action: () => getSymbols(document),
+    forceUpdate: forceUpdate
   });
-});
+  sendResult({
+    type: "svg",
+    location: THIS_URL,
+    action: () => getVisibleSvg(document),
+    forceUpdate: forceUpdate
+  });
+
+  // External docs
+  getExternalUrls(document, forceUpdate).forEach(url => {
+    fetch(url).then(resp => resp.text()).then(svgText => {
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+      if (svgDoc.documentElement.nodeName === "svg") {
+        sendResult({
+          type: "symbol",
+          location: url,
+          action: () => getSymbols(svgDoc),
+          forceUpdate: false
+        });
+      }
+    });
+  });
+}
+
+/**
+ * Listen for commands from the panel
+ */
+// browser.runtime.onMessage.addListener(msg => {
+//   if (msg === "update") {
+//     lookUp(false);
+//   }
+//   if (msg === "update-force") {
+//     lookUp(true);
+//   }
+// });
+
+/**
+ * Start looking for SVG content right away
+ * This should work when re-opening the devtools now.
+ */
+lookUp(false);

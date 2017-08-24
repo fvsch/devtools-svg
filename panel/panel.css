@@ -9,17 +9,27 @@
   height: 100%;
   /* 12px with default settings */
   font-size: 75%;
-
   --full-image: 240px;
+}
+
+.lightTheme {
   --text-base: #333;
-  --accent-text: #fff;
+  --text-contrasted: #222;
   --accent-background: #3a8ad3;
   --accent-dim-background: #d9dbde;
   --background-base: #fff;
-  --background-darker1: #fbfbfb;
-  --background-darker2: #f0f0f0;
-  --background-list: #ccc;
+  --background-toolbar: #fbfbfb;
   --border-color-main: #e6e6e6;
+}
+
+.darkTheme {
+  --text-base: #A7ACB2;
+  --text-contrasted: #d9dde3;
+  --accent-background: #435DAD;
+  --accent-dim-background: #494c64;
+  --background-base: #20242E;
+  --background-toolbar: #272B35;
+  --border-color-main: #3d4354;
 }
 
 body {
@@ -37,11 +47,6 @@ main {
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
-}
-
-.Toolbar-styles svg {
-  fill: var(--svg-fill);
-  stroke: var(--svg-stroke);
 }
 
 .svgWrapper > svg {
@@ -79,9 +84,24 @@ main {
 
 .Toolbar {
   display: flex;
-  padding: 2px 4px;
+  padding: 1px 2px;
   border-bottom: solid 1px var(--border-color-main);
-  background-color: var(--background-darker1);
+  color: var(--text-contrasted);
+  background-color: var(--background-toolbar);
+}
+
+.Toolbar-search {
+  border: none;
+  width: 20em;
+  height: 100%;
+  padding: 3px 6px;
+  max-width: 100%;
+  color: inherit;
+  background: transparent;
+}
+
+.Toolbar-search:focus {
+  outline: dotted 1px;
 }
 
 .Toolbar-styles {
@@ -100,7 +120,12 @@ main {
   border: none;
   border-radius: 3px;
   line-height: 1;
+  color: inherit;
   background: transparent;
+}
+
+.Toolbar-styles button:focus {
+  outline: dotted 1px;
 }
 
 .Toolbar-styles button[aria-selected="true"] {
@@ -109,6 +134,8 @@ main {
 
 .Toolbar-styles svg {
   vertical-align: top;
+  fill: var(--svg-fill);
+  stroke: var(--svg-stroke);
 }
 
 .Content-placeholder {
@@ -127,7 +154,7 @@ main {
   padding: 6px;
   font: inherit;
   line-height: 1;
-  background-color: var(--background-darker1);
+  background-color: var(--background-toolbar);
   border: solid var(--border-color-main);
   border-width: 1px 0;
 }

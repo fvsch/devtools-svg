@@ -1,7 +1,9 @@
 {
+  "manifest_version": 2,
   "name": "Inspect SVG",
   "description": "Try to find and show SVG symbols used on a page.",
-  "manifest_version": 2,
+  "homepage_url": "https://github.com/fvsch/devtools-svg",
+  "author": "Florens Verschelde",
   "version": "1.0",
   "icons": {
     "64": "img/lion-64.png",

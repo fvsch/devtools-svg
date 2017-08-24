@@ -14,7 +14,7 @@ browser.runtime.onConnect.addListener(port => {
   }
   // Inject content script, saving the port
   port.onMessage.addListener(msg => {
-    const { tabId, injectScript, registerPort } = msg;
+    const { tabId, injectScript, registerPort, contentMsg } = msg;
     if (typeof tabId !== "number") {
       return;
     }
@@ -24,6 +24,11 @@ browser.runtime.onConnect.addListener(port => {
     if (typeof injectScript === "string") {
       browser.tabs.executeScript(tabId, { file: injectScript });
     }
+    // Forward all messages with a 'contentMsg' property
+    // from the panel instance to the content script
+    if (contentMsg) {
+      //browser.tabs.sendMessage(tabId, contentMsg);
+    }
   });
 });
 
@@ -32,11 +37,13 @@ browser.runtime.onConnect.addListener(port => {
  */
 browser.runtime.onMessage.addListener((msg, sender) => {
   const { tab } = sender;
-  if (!tab || typeof tab !== "object" || typeof sender.tab.id !== "number") {
+  if (!tab || typeof tab !== "object" || typeof tab.id !== "number") {
     return;
   }
-  const port = panelPorts[sender.tab.id];
+  const port = panelPorts[tab.id];
+
   if (port && typeof port === "object") {
+    console.log('Forwarding message', msg);
     port.postMessage(msg);
   }
 });
