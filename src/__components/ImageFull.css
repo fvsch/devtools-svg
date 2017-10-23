@@ -1,0 +1,72 @@
+.ImageFull {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+}
+
+.ImageFull-frame {
+  position: relative;
+  flex-grow: 0;
+  flex-shrink: 1;
+  width: var(--sidebar-width);
+  height: var(--sidebar-width);
+  overflow: hidden;
+  padding: 6px;
+  color: #000;
+  background-color: #fafafa;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="rgb(238,238,238)" width="24" height="24"><rect x="0" y="0" width="12" height="12"></rect><rect x="12" y="12" width="12" height="12"></rect></svg>');
+  background-size: 24px 24px;
+  background-position: -6px -6px;
+  fill: url("#devtools-svg-gradient1");
+}
+
+.ImageFull-frame::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: solid 1px var(--accent-background);
+  opacity: 0.5;
+}
+
+.ImageFull-frame > svg {
+  width: calc(var(--sidebar-width) - 12px);
+  height: calc(var(--sidebar-width) - 12px);
+  vertical-align: top;
+}
+
+.ImageFull-info {
+  flex-grow: 1;
+}
+
+.ImageFull-info table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+}
+
+.ImageFull-info td {
+  padding: 2px 6px;
+  border: solid 1px var(--border-color-main);
+}
+
+.ImageFull-info td:first-child {
+  width: 5em;
+  border-left: none;
+}
+
+.ImageFull-info td:last-child {
+  border-right: none;
+}
+
+@media (orientation: portrait) {
+  .ImageFull {
+    flex-direction: row;
+  }
+  .ImageFull-frame {
+    max-width: 50%;
+  }
+}

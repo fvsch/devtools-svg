@@ -1,0 +1,33 @@
+.Section {
+  border-top: solid 1px var(--border-color-main);
+}
+
+.Section:first-child {
+  border-top-width: 0;
+}
+
+.Section-head {
+  display: flex;
+  align-items: baseline;
+  margin: 0;
+  padding: 6px;
+  border-bottom: solid 1px var(--border-color-main);
+  font: inherit;
+  line-height: 1;
+  background-color: var(--background-toolbar);
+  white-space: nowrap;
+}
+
+.Section-type {
+  margin-right: 1em;
+}
+
+.Section-url {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  font-family: monospace, monospace;
+  font-size: .9rem;
+  opacity: .75;
+}

@@ -18,7 +18,7 @@ Usage requires Firefox and some technical know-how.
 
 ## To do
 
-- [ ] Rewrite panel UI (probably using Preact?)
+- [ ] Rewrite panel UI (probably using React)
 - [ ] More features ^^
 - [ ] Chrome compatibility
 - [ ] Publish on Mozilla and Chrome extension sites

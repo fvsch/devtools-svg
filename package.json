@@ -1,0 +1,28 @@
+{
+  "name": "devtools-svg",
+  "private": true,
+  "license": "MIT",
+  "repository": "https://github.com/fvsch/devtools-svg",
+  "dependencies": {
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "redux-zero": "^4.12.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.3.5",
+    "@types/react-dom": "^16.0.4",
+    "prettier": "^1.11",
+    "rollup": "^0.57.1",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-typescript2": "^0.12.0",
+    "typescript": "^2.8.1",
+    "webextension-polyfill-ts": "^0.8.3"
+  },
+  "scripts": {},
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "jsxBracketSameLine": true
+  }
+}

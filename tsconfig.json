@@ -1,0 +1,16 @@
+{
+  "files": ["src/content.ts"],
+  "compilerOptions": {
+    "allowJs": true,
+    "alwaysStrict": true,
+    "outDir": "ext/dist",
+    "lib": ["es2017", "dom"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "sourceMap": false,
+    "target": "es2015",
+    "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"]
+  },
+  "exclude": ["ext", "node_modules"]
+}

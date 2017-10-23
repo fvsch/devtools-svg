@@ -1,0 +1,25 @@
+<section class="Section">
+  <h2 class="Section-head">
+    <span class="Section-type">{{ label }}</span>
+    <span class="Section-url">{{ location }}</span>
+  </h2>
+  <ImageList bind:items/>
+</section>
+
+<script>
+  import "./Section.css";
+  import ImageList from "./ImageList.html";
+
+  export default {
+    data() {
+      return {
+        label: "",
+        location: "",
+        items: []
+      };
+    },
+    components: {
+      ImageList
+    }
+  };
+</script>
