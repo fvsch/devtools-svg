@@ -1,0 +1,174 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* we'll scroll specific panels instead */
+  overflow: hidden;
+  /* we'll use rem for text sizes */
+  font-size: 12px;
+  --sidebar-width: 240px;
+}
+
+@media (orientation: landscape) and (max-width: 540px) {
+  :root {
+    --sidebar-width: 160px;
+  }
+}
+
+.lightTheme {
+  --text-base: #333;
+  --text-contrasted: #222;
+  --accent-background: #3a8ad3;
+  --accent-dim-background: #d9dbde;
+  --background-base: #fff;
+  --background-toolbar: #f9f9fa;
+  --border-color-main: #e0e0e1;
+}
+
+.darkTheme {
+  --text-base: #A7ACB2;
+  --text-contrasted: #d9dde3;
+  --accent-background: #435DAD;
+  --accent-dim-background: #494c64;
+  --background-base: #20242E;
+  --background-toolbar: #272B35;
+  --border-color-main: #3d4354;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: var(--text-size);
+  color: var(--text-base);
+  background-color: var(--background-base);
+}
+
+@media (orientation: portrait) {
+  body {
+    flex-direction: column;
+  }
+}
+
+main {
+  height: 100%;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.svgWrapper > svg {
+  fill: var(--svg-fill, currentColor);
+  stroke: var(--svg-stroke, none);
+  color: var(--svg-color, currentColor);
+}
+.Panel {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  grid-template-rows: min-content 1fr;
+  height: 100vh;
+}
+
+.Panel > header {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+
+.Panel > main {
+  grid-column: 1 / 3;
+  grid-row: 2;
+}
+
+.Panel--sidebar > main {
+  grid-column: 1;
+}
+
+.Panel > aside {
+  display: none;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.Panel--sidebar > aside {
+  display: block;
+}
+
+.Toolbar {
+  display: flex;
+  width: 100%;
+  padding: 4px;
+  border-bottom: solid 1px var(--border-color-main);
+  color: var(--text-contrasted);
+  background-color: var(--background-toolbar);
+}
+
+.Toolbar-search {
+  border: none;
+  width: 20em;
+  height: 100%;
+  padding: 3px 6px;
+  max-width: 100%;
+  color: inherit;
+  background: transparent;
+}
+
+.Toolbar-search:focus {
+  outline: dotted 1px;
+}
+
+.Toolbar-styles {
+  display: flex;
+  margin-left: auto;
+}
+
+.Toolbar-styles span {
+  display: inline-block;
+  padding: 4px 6px;
+  line-height: 1;
+}
+
+.Toolbar-styles button {
+  padding: 2px 4px;
+  border: none;
+  border-radius: 3px;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+}
+
+.Toolbar-styles button:focus {
+  outline: none;
+  box-shadow: 0 0 1px red;
+}
+
+.Toolbar-styles button[aria-selected="true"] {
+  background-color: var(--accent-dim-background);
+}
+
+.Toolbar-styles svg {
+  vertical-align: top;
+  fill: var(--svg-fill);
+  stroke: var(--svg-stroke);
+}
+.Content-placeholder {
+  margin: 0;
+  padding: 40vh 20px;
+  text-align: center;
+}
+.Sidebar {
+  border: solid var(--border-color-main);
+  border-width: 0 0 0 1px;
+  background-color: var(--background-base);
+}
+
+.Sidebar[hidden] {
+  display: none;
+}
+
+@media (orientation: portrait) {
+  .Sidebar {
+    border-width: 1px 0 0;
+  }
+}

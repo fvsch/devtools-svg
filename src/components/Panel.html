@@ -1,0 +1,30 @@
+<div class="Panel">
+  <Toolbar></Toolbar>
+  <Content>
+    <h1>Hello {{title}}!</h1>
+  </Content>
+  <Sidebar></Sidebar>
+</div>
+
+<script>
+  import { autorun } from 'mobx';
+  import store from '../store';
+
+  import "./Panel.css";
+  import Toolbar from './Toolbar.html';
+  import Content from './Content.html';
+  import Sidebar from './Sidebar.html';
+
+  export default {
+    components: {
+      Toolbar,
+      Content,
+      Sidebar
+    },
+    data() {
+      return {
+        title: store.title
+      }
+    }
+  }
+</script>

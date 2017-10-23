@@ -1,0 +1,58 @@
+
+.Toolbar {
+  display: flex;
+  width: 100%;
+  padding: 4px;
+  border-bottom: solid 1px var(--border-color-main);
+  color: var(--text-contrasted);
+  background-color: var(--background-toolbar);
+}
+
+.Toolbar-search {
+  border: none;
+  width: 20em;
+  height: 100%;
+  padding: 3px 6px;
+  max-width: 100%;
+  color: inherit;
+  background: transparent;
+}
+
+.Toolbar-search:focus {
+  outline: dotted 1px;
+}
+
+.Toolbar-styles {
+  display: flex;
+  margin-left: auto;
+}
+
+.Toolbar-styles span {
+  display: inline-block;
+  padding: 4px 6px;
+  line-height: 1;
+}
+
+.Toolbar-styles button {
+  padding: 2px 4px;
+  border: none;
+  border-radius: 3px;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+}
+
+.Toolbar-styles button:focus {
+  outline: none;
+  box-shadow: 0 0 1px red;
+}
+
+.Toolbar-styles button[aria-selected="true"] {
+  background-color: var(--accent-dim-background);
+}
+
+.Toolbar-styles svg {
+  vertical-align: top;
+  fill: var(--svg-fill);
+  stroke: var(--svg-stroke);
+}

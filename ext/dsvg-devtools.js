@@ -5,7 +5,7 @@
 const panels = browser.devtools.panels;
 let theme = browser.devtools.panels.themeName;
 
-panels.create("SVG", iconName(theme), "panel/panel.html").then(panel => {
+panels.create("SVG", iconName(theme), "dsvg-panel.html").then(panel => {
   panel.onShown.addListener(onPanelShown);
 });
 

@@ -1,4 +1,4 @@
-const PANEL_URL = browser.runtime.getURL("/panel/panel.html");
+const PANEL_URL = browser.runtime.getURL("/dsvg-panel.html");
 
 /**
  * Keep track of panel <-> background connection ports

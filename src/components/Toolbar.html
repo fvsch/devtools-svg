@@ -1,0 +1,28 @@
+<header class="Toolbar">
+  <input class="Toolbar-search"
+    aria-label="Filter on id or class"
+    placeholder="Filter on id or class">
+  <div class="Toolbar-styles">
+    <span>Default style</span>
+    <button aria-label="Context color fill" title="Context color fill" aria-selected="true"
+      style="--svg-fill:currentColor;--svg-stroke:none;">
+      <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
+    </button>
+    <button aria-label="Blue fill" title="Blue fill"
+      style="--svg-fill:url('#dsvg-gradient-blue');--svg-stroke:none;--svg-color:#34A0FF;">
+      <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
+    </button>
+    <button aria-label="Red fill" title="Red fill"
+      style="--svg-fill:url('#dsvg-gradient-red');--svg-stroke:none;--svg-color:#FC232C;">
+      <svg width="16" height="16"><rect x="2" y="2" width="12" height="12"/></svg>
+    </button>
+    <button aria-label="Green stroke" title="Green stroke"
+      style="--svg-fill:none;--svg-stroke:#56b832;--svg-color:rgba(160,160,160,.5);">
+      <svg width="16" height="16"><rect stroke-width="2" x="3" y="3" width="10" height="10"/></svg>
+    </button>
+  </div>
+</header>
+
+<script>
+  import "./Toolbar.css";
+</script>

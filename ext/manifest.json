@@ -10,8 +10,8 @@
     "128": "img/lion-128.png"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["dsvg-background.js"]
   },
   "permissions": ["<all_urls>"],
-  "devtools_page": "devtools/devtools.html"
+  "devtools_page": "dsvg-devtools.html"
 }

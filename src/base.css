@@ -1,0 +1,66 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* we'll scroll specific panels instead */
+  overflow: hidden;
+  /* we'll use rem for text sizes */
+  font-size: 12px;
+  --sidebar-width: 240px;
+}
+
+@media (orientation: landscape) and (max-width: 540px) {
+  :root {
+    --sidebar-width: 160px;
+  }
+}
+
+.lightTheme {
+  --text-base: #333;
+  --text-contrasted: #222;
+  --accent-background: #3a8ad3;
+  --accent-dim-background: #d9dbde;
+  --background-base: #fff;
+  --background-toolbar: #f9f9fa;
+  --border-color-main: #e0e0e1;
+}
+
+.darkTheme {
+  --text-base: #A7ACB2;
+  --text-contrasted: #d9dde3;
+  --accent-background: #435DAD;
+  --accent-dim-background: #494c64;
+  --background-base: #20242E;
+  --background-toolbar: #272B35;
+  --border-color-main: #3d4354;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: var(--text-size);
+  color: var(--text-base);
+  background-color: var(--background-base);
+}
+
+@media (orientation: portrait) {
+  body {
+    flex-direction: column;
+  }
+}
+
+main {
+  height: 100%;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.svgWrapper > svg {
+  fill: var(--svg-fill, currentColor);
+  stroke: var(--svg-stroke, none);
+  color: var(--svg-color, currentColor);
+}
