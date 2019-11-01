@@ -1,16 +1,15 @@
-/**
- * @file Content script injected by devtools-svg extension
- * (We’re keeping some state information in a few variables, declared
- * as `let` because in some cases it looks like this script is injected
- * several times and this creates issues with `const`.)
+/*
+ * Content script injected by devtools-svg extension
  */
 
-// Simplify page URL a bit, dropping the query string and hash
-let THIS_URL = document.location.origin + document.location.pathname;
-// Keep track of remote files we’re loading
-let _urls = [];
-// Keep track of validated results
-let _results = [];
+/** Simplify page URL a bit, dropping the query string and hash */
+const THIS_URL = document.location.origin + document.location.pathname;
+
+/** Keep track of remote files we’re loading */
+const _urls = [];
+
+/** Keep track of validated results */
+const _results = [];
 
 /**
  * Extract "clean" content from SVG elements, de-duping a set of element (for a document’s scope)
@@ -94,7 +93,9 @@ function getVisibleSvg(root) {
       // Still there? It’s a keeper. But how can we name it?
       let name = "svg" + (el.id ? "#" + el.id : "");
       if (el.className) {
-        name += Array.from(el.classList).map(c => "." + c).join("");
+        name += Array.from(el.classList)
+          .map(c => "." + c)
+          .join("");
       }
       return {
         name: name,
@@ -171,18 +172,20 @@ function lookUp(forceUpdate) {
 
   // External docs
   getExternalUrls(document, forceUpdate).forEach(url => {
-    fetch(url).then(resp => resp.text()).then(svgText => {
-      const parser = new DOMParser();
-      const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
-      if (svgDoc.documentElement.nodeName === "svg") {
-        sendResult({
-          type: "symbol",
-          location: url,
-          action: () => getSymbols(svgDoc),
-          forceUpdate: false
-        });
-      }
-    });
+    fetch(url)
+      .then(resp => resp.text())
+      .then(svgText => {
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+        if (svgDoc.documentElement.nodeName === "svg") {
+          sendResult({
+            type: "symbol",
+            location: url,
+            action: () => getSymbols(svgDoc),
+            forceUpdate: false
+          });
+        }
+      });
   });
 }
 

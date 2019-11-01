@@ -1,4 +1,6 @@
-const PANEL_URL = browser.runtime.getURL("/panel/panel.html");
+function getPanelUrl() {
+  return browser.runtime.getURL("./panel/panel.html");
+}
 
 /**
  * Keep track of panel <-> background connection ports
@@ -9,7 +11,11 @@ const panelPorts = {};
  * Listen for connections opened by panel instances
  */
 browser.runtime.onConnect.addListener(port => {
-  if (port.sender.url !== PANEL_URL) {
+  console.log("onConnect", port);
+
+  console.log(`port.sender.url (${port.sender.url}) !== PANEL_URL (${getPanelUrl()})`)
+
+  if (port.sender.url !== getPanelUrl()) {
     return;
   }
   // Inject content script, saving the port
@@ -36,6 +42,8 @@ browser.runtime.onConnect.addListener(port => {
  * Forward content script messages to the correct panel instance
  */
 browser.runtime.onMessage.addListener((msg, sender) => {
+  console.log("onMessage", { msg, sender });
+
   const { tab } = sender;
   if (!tab || typeof tab !== "object" || typeof tab.id !== "number") {
     return;
@@ -43,7 +51,7 @@ browser.runtime.onMessage.addListener((msg, sender) => {
   const port = panelPorts[tab.id];
 
   if (port && typeof port === "object") {
-    console.log('Forwarding message', msg);
+    console.log("Forwarding message", msg);
     port.postMessage(msg);
   }
 });

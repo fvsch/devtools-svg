@@ -13,5 +13,5 @@
     "scripts": ["background.js"]
   },
   "permissions": ["<all_urls>"],
-  "devtools_page": "devtools/devtools.html"
+  "devtools_page": "devtools.html"
 }

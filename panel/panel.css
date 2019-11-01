@@ -7,12 +7,11 @@
 :root {
   overflow: hidden;
   height: 100%;
-  /* 12px with default settings */
-  font-size: 75%;
+  font-size: 12px;
   --full-image: 240px;
 }
 
-.lightTheme {
+.theme-light {
   --text-base: #333;
   --text-contrasted: #222;
   --accent-background: #3a8ad3;
@@ -22,7 +21,7 @@
   --border-color-main: #e6e6e6;
 }
 
-.darkTheme {
+.theme-dark {
   --text-base: #A7ACB2;
   --text-contrasted: #d9dde3;
   --accent-background: #435DAD;
@@ -84,41 +83,47 @@ main {
 
 .Toolbar {
   display: flex;
-  padding: 1px 2px;
+  min-height: 29px;
   border-bottom: solid 1px var(--border-color-main);
   color: var(--text-contrasted);
   background-color: var(--background-toolbar);
+  user-select: none;
 }
 
 .Toolbar-search {
-  border: none;
-  width: 20em;
-  height: 100%;
+  flex: 1 1 20em;
+  min-width: 10em;
+  max-width: 40em;
+  width: auto;
+  height: auto;
+  border: 1px solid transparent;
   padding: 3px 6px;
-  max-width: 100%;
+  font-size: inherit;
   color: inherit;
   background: transparent;
 }
 
 .Toolbar-search:focus {
-  outline: dotted 1px;
+  outline: none;
+  border-color: blue;
 }
 
 .Toolbar-styles {
+  flex: none;
   display: flex;
   margin-left: auto;
 }
 
 .Toolbar-styles span {
+  align-self: center;
   display: inline-block;
   padding: 4px 6px;
   line-height: 1;
 }
 
 .Toolbar-styles button {
-  padding: 2px 4px;
+  padding: 4px 6px;
   border: none;
-  border-radius: 3px;
   line-height: 1;
   color: inherit;
   background: transparent;

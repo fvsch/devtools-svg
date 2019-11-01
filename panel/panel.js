@@ -67,7 +67,7 @@ function selectIcon(li) {
 port.postMessage({
   tabId: tabId,
   registerPort: true,
-  injectScript: "/devtools/content.js"
+  injectScript: "/content.js"
 });
 
 /**
@@ -89,8 +89,12 @@ window.panelCommands = {
   }
 };
 
+const messages = [];
+
 // Test: show found symbols
 port.onMessage.addListener(msg => {
+  messages.push(msg);
+
   if (!msg.result || msg.result.items.length === 0) {
     return;
   }

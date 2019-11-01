@@ -1,11 +1,11 @@
-/**
- * @file This script is run whenever the devtools are open
+/*
+ * This script is run whenever the devtools are open
  */
 
 const panels = browser.devtools.panels;
 let theme = browser.devtools.panels.themeName;
 
-panels.create("SVG", iconName(theme), "panel/panel.html").then(panel => {
+panels.create("SVG", iconName(theme), "./panel/panel.html").then(panel => {
   panel.onShown.addListener(onPanelShown);
 });
 
@@ -19,11 +19,9 @@ function onPanelShown(panelWindow) {
 }
 
 function iconName(themeName) {
-  return themeName === "dark" ? "img/panel-white.svg" : "img/panel-black.svg";
+  return `./img/panel-${themeName === "dark" ? "white" : "black"}.svg`;
 }
 
 function themeClass(themeName) {
-  return ["light", "dark"].includes(themeName)
-    ? themeName + "Theme"
-    : "lightTheme";
+  return `theme-${themeName === "dark" ? "dark" : "light"}`;
 }
